@@ -1,0 +1,4 @@
+[[language]]
+name = "go"
+config = { "build.buildFlags" = ["-tags=integ"] }
+# config = { "build.buildFlags" = ["-tags=integ"], "formatting.gofumpt" = true }
