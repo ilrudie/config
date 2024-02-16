@@ -2,3 +2,13 @@
 name = "go"
 config = { "build.buildFlags" = ["-tags=integ"] }
 # config = { "build.buildFlags" = ["-tags=integ"], "formatting.gofumpt" = true }
+
+[[language]]
+name = "yaml"
+scope = "source.yaml"
+file-types = ["yml", "yaml"]
+roots = []
+comment-token = "#"
+indent = { tab-width = 2, unit = "  " }
+language-server = { command = "yaml-language-server", args = ["--stdio"] }
+injection-regex = "yml|yaml"
