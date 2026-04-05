@@ -1,0 +1,26 @@
+# Brewfile for macOS development environment
+# Install packages with: brew bundle --file=brew/Brewfile
+
+# Version control system
+brew "git"
+
+# Terminal multiplexer
+brew "tmux"
+
+# Neovim configuration framework
+brew "lazyvim"
+
+# Container platform
+brew "docker"
+
+# Go programming language
+brew "go", "1.26.1"
+
+# Rust programming language
+brew "rust", "1.94.1"
+
+# JSON query and transformation tool
+brew "jq"
+
+# Kubernetes in Docker
+brew "kind"
