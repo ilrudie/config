@@ -1,0 +1,5 @@
+.claude/
+.codex
+**/CLAUDE.md
+.local-notes/
+**/.local-*

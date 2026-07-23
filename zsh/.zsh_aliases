@@ -1,0 +1,21 @@
+## Aliases
+alias k=kubectl
+compdef k='kubectl' # ensure k<tab> also auto completes
+export KUBE_EDITOR=nvim
+
+alias gst="git status"
+alias gls="git log --show-signature"
+alias glo="git log --pretty=oneline"
+alias gss="git stash"
+alias gsp="git stash pop"
+alias gca="git commit -amend --no-edit"
+alias gcs="git commit -s -m"
+alias gdf="git diff"
+alias gdx="git diff | xclip -selection clipboard"
+alias vhs="nvim -R ~/Documents/migrate/history"
+alias tma="tmux attach || tmux"
+alias view="nvim -R"
+alias gitsoloize="git config --add url.'git@github.com:'.insteadOf 'https://github.com/'"
+alias clc="claude"
+alias xc="xclip -selection clipboard"
+
