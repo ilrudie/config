@@ -61,9 +61,9 @@ mise doctor
 # 7. tmux plugin manager (one-time clone), then start tmux and press <prefix>+I
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 
-# 8. GPG commit signing (Apple Silicon paths)
+# 8. GPG commit signing (Apple Silicon paths) — in-terminal passphrase prompt
 mkdir -p ~/.gnupg && chmod 700 ~/.gnupg
-echo 'pinentry-program /opt/homebrew/bin/pinentry-mac' >> ~/.gnupg/gpg-agent.conf
+echo 'pinentry-program /opt/homebrew/bin/pinentry-curses' >> ~/.gnupg/gpg-agent.conf
 echo 'export GPG_TTY=$(tty)' >> ~/.zshrc
 gpgconf --kill gpg-agent
 gpg --import /path/to/secret-key.asc
