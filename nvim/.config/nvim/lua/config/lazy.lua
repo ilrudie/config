@@ -18,9 +18,6 @@ require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- LazyVim extras (must come after lazyvim.plugins, before your own plugins).
-    -- These are tracked in git; lazyvim.json (what :LazyExtras writes) is not.
-    { import = "lazyvim.plugins.extras.lang.rust" },
     -- import/override with your plugins
     { import = "plugins" },
   },
