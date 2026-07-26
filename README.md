@@ -101,9 +101,11 @@ set up tool activation, in this order:
 
 ```sh
 eval "$(mise activate zsh)"          # dev tools on PATH
+autoload -Uz compinit && compinit    # completion (needed for compdef in aliases)
 eval "$(atuin init zsh)"             # shell history
-export GPG_TTY=$(tty)                # gpg signing in the terminal
-[ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
+source ~/.zsh_aliases                # OS-aware aliases
+export GPG_TTY=$(tty)                # in-terminal gpg pinentry
+gpg-connect-agent updatestartuptty /bye >/dev/null   # point gpg-agent at this tty
 ```
 
 ## Editing after setup

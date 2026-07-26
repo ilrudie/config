@@ -1,26 +1,35 @@
-# Brewfile for macOS development environment
-# Install packages with: brew bundle --file=brew/Brewfile
+# Brewfile — macOS OS-layer, managed as code.
+# Install:  brew bundle --file=brew/Brewfile   (run from the repo root)
+#
+# Companion to the mise package (mise/.config/mise/config.toml). Division:
+#   * mise      -> portable dev toolchains (go, rust, kubectl, neovim, tmux,
+#                  cli...). Same config on macOS + Linux.
+#   * Brewfile  -> macOS-only things mise can't package: the mise bootstrap,
+#                  stow, git/git-lfs, GnuPG, and fonts.
+# On Linux there is no Brewfile: use apt/dnf for these + `curl https://mise.run | sh`.
 
-# Version control system
-brew "git"
+# ── Bootstrap ────────────────────────────────────────────────────────────────
+brew "mise"          # portable dev-tool manager; installs everything in mise/
+brew "stow"          # symlinks this repo's packages into $HOME (Perl-based)
 
-# Terminal multiplexer
-brew "tmux"
+# ── git ──────────────────────────────────────────────────────────────────────
+brew "git"           # modern git, independent of Xcode CLT's release cadence
+brew "git-lfs"       # required by ~/.gitconfig's `filter "lfs"` hooks
 
-# Neovim configuration framework
-brew "lazyvim"
+# ── Commit signing ───────────────────────────────────────────────────────────
+# GnuPG has native deps (libgcrypt/libassuan/libksba/pinentry) mise can't ship.
+# `pinentry` gives the in-terminal (curses/tty) passphrase prompt; gnupg pulls
+# it in anyway. Swap to `pinentry-mac` if you prefer the GUI/Keychain popup.
+brew "gnupg"
+brew "pinentry"
 
-# Container platform
-brew "docker"
+# ── Container runtime (macOS) ────────────────────────────────────────────────
+# Colima = Docker-compatible daemon in a lightweight VM. Belongs here (not mise)
+# because it needs Lima; brew installs `lima`/`limactl` (+ vz/qemu) as a dep.
+# The `docker` CLI client stays in mise. Start with:
+#   colima start --cpu 6 --memory 12 --disk 100
+brew "colima"
 
-# Go programming language
-brew "go", "1.26.1"
-
-# Rust programming language
-brew "rust", "1.94.1"
-
-# JSON query and transformation tool
-brew "jq"
-
-# Kubernetes in Docker
-brew "kind"
+# ── Fonts ────────────────────────────────────────────────────────────────────
+# GoMono Nerd Font: clean monospace, no programming ligatures, for LazyVim.
+cask "font-go-mono-nerd-font"

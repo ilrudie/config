@@ -1,0 +1,6 @@
+# GNU Stow's built-in ignore list excludes files named `.gitignore` (and `.git`,
+# CVS/SVN/hg cruft, top-level README/LICENSE, editor backups). That would skip
+# our global ~/.gitignore. Providing this file REPLACES the built-in list for
+# the `git` package, so both .gitconfig and .gitignore get stowed.
+# Patterns are Perl regexes matched against the path and basename.
+\.DS_Store

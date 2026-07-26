@@ -1,7 +1,9 @@
 [user]
-	signingkey = 1D2A02A0AAC7572D
 	name = Ian Rudie
-	email = ian.rudie@solo.io
+	signingkey = 1D2A02A0AAC7572D
+	# email is set per-machine in ~/.gitconfig.local (see [include] at bottom):
+	#   personal laptop -> ilrudie@gmail.com
+	#   work laptop     -> ian.rudie@solo.io
 # [url "ssh://git@github.com/"]
 # 	insteadOf = https://github.com/
 [gpg]
@@ -22,3 +24,11 @@
 	directory = /work
 [pull]
 	rebase = true
+
+# Per-machine identity — NOT tracked, NOT stowed. Create on each machine:
+#   personal:  git config -f ~/.gitconfig.local user.email ilrudie@gmail.com
+#   work:      git config -f ~/.gitconfig.local user.email ian.rudie@solo.io
+# A missing include is silently ignored, so a fresh machine will refuse to
+# commit until you set an email here (a good failsafe against mis-attribution).
+[include]
+	path = ~/.gitconfig.local

@@ -1,0 +1,73 @@
+# ~/.config/mise/config.toml
+#
+# Global dev environment for CNCF work (Istio, kgateway, agentgateway, ...).
+#
+# Philosophy: Istio & kgateway build/test *inside* their own "build-tools"
+# containers (e.g. `BUILD_WITH_CONTAINER=1`), so you don't need to pin their
+# exact Go version locally. What you actually need is a good general toolbox
+# plus a working container runtime. agentgateway builds Rust locally, and its
+# Rust version is driven by its own rust-toolchain.toml (see [settings] below).
+# Note: no Node here, so build agentgateway proxy-only with `UI=0 make build`
+# (the default `make build` compiles the embedded web UI and needs node/npm).
+#
+# After editing this file run:  mise install
+# Inspect what's active with:   mise ls
+# Which files mise loaded:      mise config
+
+[tools]
+
+# ── Languages ────────────────────────────────────────────────────────────────
+# Local Go: powers gopls/your editor and ad-hoc `go` commands. Real builds run
+# in each project's container, so "latest" is fine (Go is backward compatible).
+# Pin per-repo instead if you want, e.g. a repo mise.toml with go = "1.26".
+go   = "latest"
+
+# Rust: this installs rustup under the hood. It does NOT hard-pin a version —
+# because idiomatic_version_file_enable_tools below lets each project's
+# rust-toolchain.toml choose the toolchain (agentgateway pins 1.97, with
+# clippy/rustfmt from the default profile). "stable" is the fallback elsewhere.
+# rust-analyzer component so nvim's rustaceanvim (LazyVim lang.rust extra) has an LSP.
+rust = { version = "stable", components = ["rust-analyzer"] }
+
+# ── Container runtime (macOS only) ───────────────────────────────────────────
+# The docker CLI client (talks to Colima's daemon). Colima itself lives in the
+# Brewfile, not here: its aqua package ships no `lima`/`limactl`, whereas brew
+# pulls in Lima (+ vz/qemu) automatically. First-time daemon setup:
+#   colima start --cpu 6 --memory 12 --disk 100
+#   docker ps    # colima wires up the docker context for you
+# Os-gated so this file is safe on Linux, where you'd use native Docker/Podman.
+docker-cli     = { version = "latest", os = ["macos"] }
+docker-compose = { version = "latest", os = ["macos"] }
+
+# ── Kubernetes / CNCF workflow ───────────────────────────────────────────────
+kubectl = "latest"
+kind    = "latest"   # local clusters for e2e tests (istio, kgateway)
+helm    = "latest"
+k9s     = "latest"
+
+# ── Editor + terminal ────────────────────────────────────────────────────────
+neovim         = "latest"    # LazyVim runs on this (needs Neovim >= 0.11)
+tmux           = "latest"
+"tree-sitter"  = "latest"    # nvim-treesitter CLI; put on PATH so LazyVim
+                             # doesn't fall back to a flaky Mason auto-install
+
+# ── LazyVim dependencies + general CLI quality-of-life ───────────────────────
+ripgrep      = "latest"   # LazyVim grep / Telescope live-grep  (provides `rg`)
+fd           = "latest"   # LazyVim file finding
+fzf          = "latest"
+lazygit      = "latest"   # LazyVim <leader>gg git UI
+jq           = "latest"
+yq           = "latest"
+"github-cli" = "latest"   # the `gh` command
+atuin        = "latest"   # shell history; needs `eval "$(atuin init zsh)"` in ~/.zshrc
+
+# ── Go / protobuf tooling (optional — these repos also run them in-container) ─
+golangci-lint = "latest"
+buf           = "latest"
+protoc        = "latest"
+
+[settings]
+# Let a project's rust-toolchain.toml select the Rust toolchain automatically
+# when you cd into it. This is what makes agentgateway use Rust 1.97 for you
+# while other dirs stay on "stable".
+idiomatic_version_file_enable_tools = ["rust"]

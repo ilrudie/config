@@ -1,0 +1,9 @@
+# Repo-level ignores (controls what THIS repo tracks; not stowed anywhere).
+#
+# TPM and the tmux plugins it installs clone into ~/.config/tmux/plugins, which
+# is a stow symlink into this repo — so they physically land here. They're
+# third-party and TPM-managed, so don't track them.
+tmux/.config/tmux/plugins/
+
+# macOS noise
+.DS_Store
